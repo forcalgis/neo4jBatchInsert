@@ -1,0 +1,46 @@
+before_script:
+  - echo "run before script"
+  - whoami
+  - pwd
+
+stages:
+  - build
+  - pack
+
+build:
+  stage: build
+  script:
+    - echo "=== build running ==="
+    - rm -rf class
+    - rm -rf dist
+    - mkdir class
+    - mkdir dist
+    - mkdir dist/lib
+    - cp -R src/config dist/
+    - javac -encoding utf-8 -Djava.ext.dirs=./lib -d class src/com/kensure/batchinsert/hbase/*.java src/com/kensure/batchinsert/common/*.java src/com/kensure/batchinsert/util/*.java
+    - jar cvfm dist/Neo4jBatchInsert.jar manifest -C class/ .
+  tags:
+    - java
+  artifacts:
+    paths:
+      - dist
+    expire_in: 1 day
+
+pack:
+  stage: pack
+  script:
+    - echo "=== pack running ==="
+    - PKGNAME="$CI_PROJECT_NAME.$CI_COMMIT_TAG.tar.gz"
+    - PRODUCT_ENV=$PRODUCT_SERVER_USER@$PRODUCT_SERVER_ADD:$PRODUCT_SERVER_ROOT_PATH
+    - cp -R lib/* dist/lib/
+    - tar -czf $PKGNAME dist
+    - scp $PKGNAME $PRODUCT_ENV/compute/Neo4jBatchInsert/
+    - rm -rf $PKGNAME
+    - echo "http://$PRODUCT_SERVER_DOMAIN/compute/Neo4jBatchInsert/$PKGNAME"
+  environment:
+    name: pack
+    url: http://$PRODUCT_SERVER_DOMAIN/compute/Neo4jBatchInsert/
+  tags:
+    - java
+  only:
+    - tags

@@ -1,0 +1,219 @@
+{
+    "configs": [
+        {
+            "name": "hbase.zookeeper.property.clientPort",
+            "value": "2181",
+            "desc": "hbase对应zookeeper的端口"
+        },
+        {
+            "name": "hbase.zookeeper.quorum",
+            "value": "192.168.10.82",
+            "desc": "hbase对应集群地址"
+        },
+        {
+            "name": "neo4j.database.path",
+            "value": "/opt/hzjs/application/neo4j/relation.db",
+            "desc": "neo4j数据存储目录"
+        },
+        {
+            "name": "neo4j.database.beforeexc.deleted",
+            "value": "false",
+            "desc": "neo4j数据库数据是否删除"
+        },
+        {
+            "name": "neo4j.batch.insert.table.order",
+            "value": "masjwy_ywk:d_vehicle_jgjdcjbxx",
+            "desc": "执行顺序"
+        },
+        {
+            "name": "node.index.search.count",
+            "value": "100000",
+            "desc": "关系对象最大缓存量阀值"
+        },
+        {
+            "name": "node.index.search.parallel",
+            "value": "20",
+            "desc": "关系对象查询或存储时的线程数"
+        },
+        {
+            "name": "node.index.search.beforeexc.deleted",
+            "value": "false",
+            "desc": "关系对象存储时是否清楚之前的数据"
+        },
+        {
+            "name": "relationship.index.search.table",
+            "value": "masjwy_ywk:d_neo4j_relationindex",
+            "desc": "边对象存储表名称"
+        },
+        {
+            "name": "node.index.search.table",
+            "value": "masjwy_ywk:d_neo4j_nodeindex",
+            "desc": "关系对象存储表名称"
+        },
+        {
+            "name": "node.index.search.family",
+            "value": "D",
+            "desc": "关系对象存储表列簇"
+        },
+        {
+            "name": "node.index.search.column",
+            "value": "V",
+            "desc": "关系对象存储表列名，此列存储Neo4j库中节点的ID值"
+        },
+        {
+            "name": "node.index.search.table.partions",
+            "value": "01,02,03,04,05,06,07,08,09,10,11,12,13,14,15,16,17,18",
+            "desc": "关系对象存储表预分区值"
+        }
+    ],
+    "labels": [
+        {
+            "name": "Person",
+            "code": "00",
+            "desc": "人员"
+        },
+		{
+            "name": "House",
+            "code": "01",
+            "desc": "房屋"
+        },
+		{
+            "name": "Car",
+            "code": "02",
+            "desc": "车辆"
+        }
+    ],
+    "nodes": [
+		{
+            "label_name": "Person",
+            "table_name": "masjwy_ywk:d_vehicle_jgjdcjbxx",
+            "table_limit":"",
+            "node_save":"true",
+            "node_get":"true",
+            "properties": [
+                {
+                    "hbase_family": "D",
+                    "hbase_field": "ZJHM",
+                    "hbase_datatype": "String",
+                    "hbase_dataformat": "zjhm",
+                    "neo4j_property": "number",
+                    "property_type": "primary",
+                    "label_name": ""
+                },
+                {
+                    "hbase_family": "D",
+                    "hbase_field": "XM",
+                    "hbase_datatype": "String",
+                    "hbase_dataformat": "",
+                    "neo4j_property": "xm",
+                    "property_type": "",
+                    "label_name": ""
+                },
+                {
+                    "hbase_family": "D",
+                    "hbase_field": "ZT",
+                    "hbase_datatype": "",
+                    "hbase_dataformat": "正常",
+                    "neo4j_property": "",
+                    "property_type": "validate",
+                    "label_name": ""
+                }
+            ]
+        },
+		{
+            "label_name": "Car",
+            "table_name": "masjwy_ywk:d_vehicle_jgjdcjbxx",
+            "table_limit":"",
+            "node_save":"true",
+            "node_get":"true",
+            "properties": [
+                {
+                    "hbase_family": "D",
+                    "hbase_field": "XH",
+                    "hbase_datatype": "String",
+                    "hbase_dataformat": "",
+                    "neo4j_property": "xh",
+                    "property_type": "primary",
+                    "label_name": ""
+                },
+                {
+                    "hbase_family": "D",
+                    "hbase_field": "HPHM",
+                    "hbase_datatype": "String",
+                    "hbase_dataformat": "",
+                    "neo4j_property": "number",
+                    "property_type": "",
+                    "label_name": ""
+                },
+                {
+                    "hbase_family": "D",
+                    "hbase_field": "CLLX",
+                    "hbase_datatype": "String",
+                    "hbase_dataformat": "",
+                    "neo4j_property": "cllx",
+                    "property_type": "",
+                    "label_name": ""
+                },
+                {
+                    "hbase_family": "D",
+                    "hbase_field": "ZT",
+                    "hbase_datatype": "",
+                    "hbase_dataformat": "正常",
+                    "neo4j_property": "",
+                    "property_type": "validate",
+                    "label_name": ""
+                }
+            ]
+        }
+    ],
+	"relactions":[
+		{
+            "hbase_family": "",
+            "hbase_field": "",
+            "table_name": "masjwy_ywk:d_vehicle_jgjdcjbxx",
+            "table_limit":"",
+            "relship_name": "have",
+            "relship_displayname": "拥有车辆",
+            "node_save":"true",
+            "node_get":"false",
+            "properties": [
+                {
+                    "hbase_family": "D",
+                    "hbase_field": "ZJHM",
+                    "hbase_datatype": "String",
+                    "hbase_dataformat": "",
+                    "neo4j_property": "",
+                    "property_type": "start",
+                    "label_name": "Person"
+                },
+                {
+                    "hbase_family": "D",
+                    "hbase_field": "XH",
+                    "hbase_datatype": "String",
+                    "hbase_dataformat": "",
+                    "neo4j_property": "",
+                    "property_type": "end",
+                    "label_name": "Car"
+                },
+                {
+                    "hbase_family": "D",
+                    "hbase_field": "SYQ",
+                    "hbase_datatype": "",
+                    "hbase_dataformat": "",
+                    "neo4j_property": "syq",
+                    "property_type": "",
+                    "label_name": ""
+                },
+                {
+                    "hbase_family": "D",
+                    "hbase_field": "ZT",
+                    "hbase_datatype": "",
+                    "hbase_dataformat": "正常",
+                    "neo4j_property": "",
+                    "property_type": "validate",
+                    "label_name": ""
+                }
+            ]
+        }
+	]
+}

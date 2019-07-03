@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="project" default="generate" basedir=".">
+	<property file="ant.properties" />
+	<property name="src" location="${src.dir}" />
+	<property name="dist" location="${dist.dir}" />
+	<property name="project" location="${project}" />
+
+	<path id="classpath">
+		<fileset dir="lib">
+		</fileset>
+	</path>
+
+	<target name="init" description="初始化参数">
+		<echo message="初始化参数" />
+		<echo message="项目路径：${basedir}" />
+		<echo message="原码路径：${src}" />
+		<echo message="发布路径：${dist}" />
+		<echo message="项目名称：${project}" />
+
+	</target>
+
+	<target name="clean" description="消除数据" depends="init">
+		<echo message="消除数据" />
+		<delete dir="${dist}" />
+	</target>
+
+	<target name="compile" description="编译文件" depends="clean">
+		<echo message="编译文件" />
+		<mkdir dir="${dist}/classes" />
+		<javac srcdir="src" destdir="${dist}/classes" encoding="UTF-8" target="1.8" debug="on" optimize="on">
+			<classpath refid="classpath" />
+		</javac>
+	</target>
+
+	<target name="copeFile" description="拷贝配置文件" depends="compile">
+		
+		<echo message="拷贝配置文件" />
+		<copy todir="${dist}/${project}">
+			<fileset dir="config">
+				<include name="*.xml" />
+			</fileset>
+		</copy>
+		
+		<copy todir="${dist}/${project}/config">
+			<fileset dir="config">
+			</fileset>
+		</copy>
+		<echo message="拷贝原码" />
+		<copy todir="${dist}/classes">
+			<fileset dir="src">
+				<include name="**/*.java" />
+			</fileset>
+		</copy>
+		<echo message="拷贝lib" />
+		<copy todir="${dist}/${project}/lib">
+			<fileset dir="lib"></fileset>
+		</copy>
+
+		<echo message="拷贝sh文件" />
+		<copy todir="${dist}/${project}">
+			<fileset dir="sh">
+				<include name="*.sh" />
+			</fileset>
+		</copy>
+		<copy todir="${dist}/${project}">
+			<fileset dir=".">
+				<include name="readme" />	
+			</fileset>
+		</copy>
+	</target>
+	<target name="jar" description="打jar包" depends="copeFile">
+		<echo message="打jar包" />
+		<jar destfile="${dist}/${project}/lib/${project}.jar" basedir="${dist}/classes">
+		</jar>
+	</target>
+
+	<target name="cleanclasses" description="消除数据" depends="jar">
+		<echo message="消除数据" />
+		<delete dir="${dist}/classes" />
+	</target>
+	<target name="generate" description="打zip包" depends="cleanclasses">
+		<echo message="打zip包" />
+		<zip destfile="${dist}/${project}.zip" duplicate="preserve">
+			<zipfileset dir="${dist}/${project}" includes="**/*" prefix="${project}">
+			</zipfileset>
+		</zip>
+		<!--
+		<delete dir="${dist}/${project}" />
+		-->
+		<echo message="自动完成了" />
+	</target>
+</project>

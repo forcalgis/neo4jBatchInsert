@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+	<appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+		<param name="encoding" value="UTF-8" />
+		<!-- 设置监视器输出方式 -->
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" 
+				value="[%d{yyyy-MM-dd HH:mm:ss}] [%p] [%t] [%c]: %m%n" />
+		</layout>
+		<!--过滤器设置输出的级别--> 
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="levelMin" value="DEBUG" />
+			<param name="levelMax" value="FATAL" />
+			<param name="AcceptOnMatch" value="true" />
+		</filter>
+	</appender>
+	<appender name="LOGFile" class="org.apache.log4j.RollingFileAppender">   
+        <param name="file" value="logs/log.log" />   
+        <param name="encoding" value="UTF-8" />   
+        <param name="threshold" value="INFO" />   
+        <param name="maxFileSize" value="100MB" />   
+        <param name="maxBackupIndex" value="10" />   
+        <layout class="org.apache.log4j.PatternLayout">   
+            <param name="conversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss}] [%p] [%t] [%c]: %m%n" />   
+        </layout>   
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">   
+            <!--<param name="levelMin" value="WARN" />-->
+            <param name="levelMin" value="DEBUG" />
+            <param name="levelMax" value="FATAL" />   
+            <param name="AcceptOnMatch" value="true" />   
+        </filter> 
+    </appender>
+    <appender name="ERRORFile" class="org.apache.log4j.RollingFileAppender">   
+        <param name="file" value="logs/error.log" />   
+        <param name="encoding" value="UTF-8" />   
+        <param name="threshold" value="ERROR" />   
+        <param name="maxFileSize" value="10MB" />   
+        <param name="maxBackupIndex" value="5" />   
+        <layout class="org.apache.log4j.PatternLayout">   
+            <param name="conversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss}] [%p] [%t] [%c]: %m%n" />   
+        </layout>   
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">   
+            <!--<param name="levelMin" value="WARN" />-->
+            <param name="levelMin" value="ERROR" />
+            <param name="levelMax" value="ERROR" />   
+            <param name="AcceptOnMatch" value="true" />   
+        </filter>   
+    </appender>
+    <logger name="org.springframework" additivity="true">   
+        <level value="OFF" />   
+    </logger>
+    <logger name="org.apache" additivity="true">   
+        <level value="OFF" />   
+    </logger>
+    <logger name="net.sf.ehcache" additivity="true">   
+        <level value="OFF" />   
+    </logger>
+    <logger name="org.elasticsearch" additivity="true">   
+        <level value="OFF" />   
+    </logger>
+    <logger name="org.spark_project.jetty" additivity="true">   
+        <level value="OFF" />   
+    </logger>
+	<root>
+		<!-- 设置接收所有输出的通道 -->
+		<priority value="DEBUG" />
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="LOGFile" />
+		<appender-ref ref="ERRORFile" />
+	</root>
+</log4j:configuration>
