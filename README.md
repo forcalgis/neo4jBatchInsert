@@ -1,1 +1,1 @@
-# neo4jBatchInsert
+大批量的全量与增量插入数据到neo4j数据库中
